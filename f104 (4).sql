@@ -1,73 +1,62 @@
 /* ============================================================
-   B5 PLUS – GLASSMORPHISM LOGIN · APEX Page 101
-   ============================================================
-   
-   YOUR PAGE STRUCTURE:
-   body.t-PageBody--login
-     └─ .t-Login-container
-         └─ .t-Login-containerBody
-             └─ .container > .row > .col
-                 └─ #login_glass_card.t-Region.login-glass-page
-                     └─ .t-Region-header  (we hide this)
-                     └─ .t-Region-bodyWrap
-                         └─ .t-Region-body  (inputs + button)
+   B5 PLUS GLASSMORPHISM · Page 101 · NO FONT CHANGES
    ============================================================ */
 
 :root {
-  --glass-bg: rgba(255,255,255,0.12);
-  --glass-border: rgba(255,255,255,0.22);
-  --glass-blur: 28px;
+  --g-bg: rgba(255,255,255,0.12);
+  --g-border: rgba(255,255,255,0.22);
+  --g-blur: 28px;
   --ink: #ffffff;
   --ink2: rgba(255,255,255,0.82);
   --ink3: rgba(255,255,255,0.58);
   --accent: #6C63FF;
   --accent2: #00D4AA;
-  --radius: 24px;
-  --radius3: 14px;
-  --shadow-card: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.10);
-  --shadow-input: inset 0 2px 6px rgba(0,0,0,0.12);
-  --font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r1: 24px;
+  --r2: 14px;
+  --shadow1: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.10);
+  --shadow-in: inset 0 2px 6px rgba(0,0,0,0.12);
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   1. DARK BACKGROUND — every wrapper, no exceptions
-   ══════════════════════════════════════════════════════════ */
-html {
-  background-color: #0a0a1a !important;
-}
-
+/* 1. DARK BACKGROUND */
 html,
-body,
-body.t-PageBody--login,
-.t-PageBody--login,
-.t-Login-container,
-.t-Login-containerBody,
-.t-Login-containerHeader,
-.t-Login-containerFooter {
+body.t-PageBody--login {
+  background: #0a0a1a !important;
+  min-height: 100vh !important;
+}
+
+body.t-PageBody--login {
   background:
     radial-gradient(1400px 900px at 15% 15%, rgba(108,99,255,0.35), transparent 55%),
     radial-gradient(1000px 800px at 85% 25%, rgba(0,212,170,0.25), transparent 55%),
     radial-gradient(800px 600px at 50% 90%, rgba(255,107,107,0.18), transparent 50%),
     linear-gradient(145deg, #0a0a1a 0%, #0d1025 30%, #0f0a20 60%, #0a0a1a 100%) !important;
-  background-color: #0a0a1a !important;
   background-attachment: fixed !important;
-  min-height: 100vh !important;
-  font-family: var(--font) !important;
 }
 
-/* Grid wrappers MUST be transparent so the dark BG shows through */
-.t-Login-containerBody .container,
-.t-Login-containerBody .row,
-.t-Login-containerBody .col,
-.t-Login-containerBody [class^="col-"],
-.t-Login-containerBody [class*=" col-"] {
+/* NUKE every wrapper between body and card */
+body.t-PageBody--login .t-Login-container,
+body.t-PageBody--login .t-Login-containerBody,
+body.t-PageBody--login .t-Login-containerHeader,
+body.t-PageBody--login .t-Login-containerFooter,
+body.t-PageBody--login .container,
+body.t-PageBody--login .row,
+body.t-PageBody--login .row > [class*="col"],
+body.t-PageBody--login .col,
+body.t-PageBody--login .col-1, body.t-PageBody--login .col-2,
+body.t-PageBody--login .col-3, body.t-PageBody--login .col-4,
+body.t-PageBody--login .col-5, body.t-PageBody--login .col-6,
+body.t-PageBody--login .col-7, body.t-PageBody--login .col-8,
+body.t-PageBody--login .col-9, body.t-PageBody--login .col-10,
+body.t-PageBody--login .col-11, body.t-PageBody--login .col-12,
+body.t-PageBody--login #main {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-/* Dot grid overlay */
+/* Dot grid */
 body.t-PageBody--login::before {
   content: "";
   position: fixed; inset: 0;
@@ -87,141 +76,131 @@ body.t-PageBody--login::after {
   pointer-events: none; z-index: 0;
   animation: orbFloat 18s ease-in-out infinite alternate;
 }
-
 @keyframes orbFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(-60px, 40px) scale(1.08); }
-  100% { transform: translate(20px, -30px) scale(0.95); }
+  0%   { transform: translate(0,0) scale(1); }
+  50%  { transform: translate(-60px,40px) scale(1.08); }
+  100% { transform: translate(20px,-30px) scale(0.95); }
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   2. HIDE CHROME
-   ══════════════════════════════════════════════════════════ */
-.t-Header,
-.t-Login-containerHeader,
-.t-Login-containerFooter {
+/* 2. HIDE CHROME */
+body.t-PageBody--login .t-Login-containerHeader,
+body.t-PageBody--login .t-Login-containerFooter {
   display: none !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   3. CENTER THE CARD
-   ══════════════════════════════════════════════════════════ */
-.t-Login-container {
+/* 3. CENTER THE CARD */
+body.t-PageBody--login .t-Login-container {
   min-height: 100vh !important;
   display: flex !important;
-  flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
-  padding: 0 !important;
+  padding: 20px !important;
 }
 
-.t-Login-containerBody {
+body.t-PageBody--login .t-Login-containerBody {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  flex: 1;
   padding: 0 !important;
 }
 
-.t-Login-containerBody .container {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+body.t-PageBody--login .container {
   max-width: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
   padding: 0 !important;
 }
 
-.t-Login-containerBody .row {
+body.t-PageBody--login .row {
+  width: 100% !important;
   display: flex !important;
   justify-content: center !important;
-  width: 100% !important;
   margin: 0 !important;
 }
 
-.t-Login-containerBody .col,
-.t-Login-containerBody [class^="col-"],
-.t-Login-containerBody [class*=" col-"] {
-  display: flex !important;
-  justify-content: center !important;
+body.t-PageBody--login .row > [class*="col"] {
   float: none !important;
   width: auto !important;
+  display: flex !important;
+  justify-content: center !important;
   padding: 0 !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   4. GLASS CARD  — targets #login_glass_card
-      (your region's Static ID)
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card {
+/* 4. GLASS CARD */
+body.t-PageBody--login #login_glass_card {
   position: relative !important;
   z-index: 2 !important;
-  width: min(480px, 92vw) !important;
-  max-width: 480px !important;
-  margin: 0 auto !important;
+  width: 480px !important;
+  max-width: 92vw !important;
+  margin: 0 !important;
   padding: 0 !important;
-  background: var(--glass-bg) !important;
-  backdrop-filter: blur(var(--glass-blur)) saturate(1.6) !important;
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6) !important;
-  border-radius: var(--radius) !important;
-  border: 1px solid var(--glass-border) !important;
-  box-shadow: var(--shadow-card) !important;
+  background: var(--g-bg) !important;
+  backdrop-filter: blur(var(--g-blur)) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(var(--g-blur)) saturate(1.6) !important;
+  border-radius: var(--r1) !important;
+  border: 1px solid var(--g-border) !important;
+  box-shadow: var(--shadow1) !important;
   overflow: hidden !important;
 }
 
-/* Inner glow sweep */
-#login_glass_card::before {
+body.t-PageBody--login #login_glass_card::before {
   content: "" !important;
-  position: absolute !important; inset: 0;
+  position: absolute !important;
+  top: 0; left: 0; right: 0; bottom: 0;
   background:
     radial-gradient(400px 180px at 20% -10%, rgba(108,99,255,0.18), transparent 60%),
     radial-gradient(300px 160px at 85% 0%, rgba(0,212,170,0.12), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,0.06), transparent 40%) !important;
-  pointer-events: none;
-  border-radius: var(--radius); z-index: 0;
+  pointer-events: none !important;
+  border-radius: var(--r1);
+  z-index: 0;
 }
 
+/* 5. STRIP REGION CHROME */
+body.t-PageBody--login #login_glass_card > .t-Region-header {
+  display: none !important;
+}
 
-/* ══════════════════════════════════════════════════════════
-   5. STRIP REGION CHROME inside the card
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card.t-Region,
-#login_glass_card .t-Region-header,
-#login_glass_card .t-Region-bodyWrap,
-#login_glass_card .t-Region-buttons {
+body.t-PageBody--login #login_glass_card,
+body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap,
+body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap > .t-Region-buttons,
+body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap > .t-Region-body {
   background: transparent !important;
   background-color: transparent !important;
+}
+
+body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap > .t-Region-body {
+  padding: 40px 36px 36px !important;
+  position: relative !important;
+  z-index: 1 !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-#login_glass_card .t-Region-header {
-  display: none !important;
-}
-
-#login_glass_card .t-Region-bodyWrap {
-  border-radius: 0 !important;
-  padding: 0 !important;
-}
-
-#login_glass_card .t-Region-body {
+body.t-PageBody--login #login_glass_card .container,
+body.t-PageBody--login #login_glass_card .row,
+body.t-PageBody--login #login_glass_card [class*="col"] {
   background: transparent !important;
-  padding: 40px 36px 36px !important;
-  position: relative;
-  z-index: 1;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   6. LOGO / HEADER
-   ══════════════════════════════════════════════════════════ */
+/* 6. HEADER */
 .b5-login-head {
   text-align: center;
   margin-bottom: 28px;
-  position: relative; z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .b5-logo {
@@ -245,27 +224,23 @@ body.t-PageBody--login::after {
   font-size: 22px;
   font-weight: 800;
   color: var(--ink) !important;
-  letter-spacing: -0.02em;
 }
 
 .b5-sub {
   font-size: 13.5px;
   color: var(--ink3) !important;
   margin-top: 6px;
-  line-height: 1.5;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   7. FORM LABELS
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card .t-Form-fieldContainer {
+/* 7. LABELS */
+body.t-PageBody--login #login_glass_card .t-Form-fieldContainer {
   margin-bottom: 18px !important;
-  position: relative; z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 
-#login_glass_card .t-Form-label,
-#login_glass_card label {
+body.t-PageBody--login #login_glass_card .t-Form-label,
+body.t-PageBody--login #login_glass_card label {
   display: block !important;
   margin-bottom: 8px !important;
   font-size: 12.5px !important;
@@ -277,87 +252,74 @@ body.t-PageBody--login::after {
   top: 0 !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   8. ALL INPUTS
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card input[type="text"],
-#login_glass_card input[type="password"],
-#login_glass_card input[type="email"],
-#login_glass_card .text_field,
-#login_glass_card .password,
-#P101_USERNAME,
-#P101_PASSWORD {
+/* 8. INPUTS */
+body.t-PageBody--login #P101_USERNAME,
+body.t-PageBody--login #P101_PASSWORD,
+body.t-PageBody--login #login_glass_card input[type="text"],
+body.t-PageBody--login #login_glass_card input[type="password"],
+body.t-PageBody--login #login_glass_card input[type="email"] {
   width: 100% !important;
   padding: 15px 18px !important;
   font-size: 15px !important;
-  font-family: var(--font) !important;
   color: var(--ink) !important;
   background: rgba(255,255,255,0.06) !important;
   border: 1px solid rgba(255,255,255,0.12) !important;
-  border-radius: var(--radius3) !important;
-  box-shadow: var(--shadow-input) !important;
+  border-radius: var(--r2) !important;
+  box-shadow: var(--shadow-in) !important;
   outline: none !important;
   transition: border-color 0.25s, background 0.25s, box-shadow 0.25s !important;
   -webkit-appearance: none !important;
 }
 
-#login_glass_card input:focus,
-#P101_USERNAME:focus,
-#P101_PASSWORD:focus {
+body.t-PageBody--login #P101_USERNAME:focus,
+body.t-PageBody--login #P101_PASSWORD:focus {
   background: rgba(255,255,255,0.10) !important;
   border-color: var(--accent) !important;
-  box-shadow: var(--shadow-input), 0 0 0 3px rgba(108,99,255,0.20), 0 0 24px rgba(108,99,255,0.10) !important;
+  box-shadow: var(--shadow-in), 0 0 0 3px rgba(108,99,255,0.20), 0 0 24px rgba(108,99,255,0.10) !important;
 }
 
-#login_glass_card input::placeholder {
+body.t-PageBody--login #P101_USERNAME::placeholder,
+body.t-PageBody--login #P101_PASSWORD::placeholder {
   color: rgba(255,255,255,0.30) !important;
 }
 
-/* Icon color */
-#login_glass_card .t-Form-itemWrapper .t-Icon,
-#login_glass_card .apex-item-icon {
+body.t-PageBody--login #login_glass_card .apex-item-icon,
+body.t-PageBody--login #login_glass_card .t-Form-itemWrapper .t-Icon {
   color: var(--ink3) !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   9. PASSWORD TOGGLE
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card #P101_PASSWORD_CONTAINER .t-Form-inputContainer {
-  position: relative;
-}
-
-#P101_PASSWORD {
+/* 9. PASSWORD TOGGLE */
+body.t-PageBody--login #P101_PASSWORD {
   padding-right: 48px !important;
 }
 
-#togglePwd101 {
+body.t-PageBody--login #togglePwd101 {
   position: absolute !important;
-  right: 14px !important; top: 50% !important;
+  right: 14px !important;
+  top: 50% !important;
   transform: translateY(-50%) !important;
-  border: none !important; background: transparent !important;
-  cursor: pointer !important; padding: 6px !important;
-  color: var(--ink3) !important; transition: color 0.2s !important;
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  padding: 6px !important;
+  color: var(--ink3) !important;
 }
-#togglePwd101:hover { color: var(--ink) !important; }
+body.t-PageBody--login #togglePwd101:hover {
+  color: var(--ink) !important;
+}
 
-
-/* ══════════════════════════════════════════════════════════
-   10. BUTTON
-   ══════════════════════════════════════════════════════════ */
-#login_glass_card .t-Button,
-#login_glass_card button[type="submit"],
-#login_glass_card .t-Button--hot {
+/* 10. BUTTON */
+body.t-PageBody--login #login_glass_card .t-Button,
+body.t-PageBody--login #login_glass_card .t-Button--hot,
+body.t-PageBody--login #login_glass_card button[type="submit"] {
   width: 100% !important;
   padding: 16px 20px !important;
   font-size: 14.5px !important;
   font-weight: 800 !important;
-  font-family: var(--font) !important;
   letter-spacing: 0.04em !important;
   color: #ffffff !important;
   border: none !important;
-  border-radius: var(--radius3) !important;
+  border-radius: var(--r2) !important;
   cursor: pointer !important;
   background: linear-gradient(135deg, var(--accent) 0%, #8B5CF6 50%, var(--accent) 100%) !important;
   background-size: 200% 200% !important;
@@ -372,20 +334,17 @@ body.t-PageBody--login::after {
   100% { background-position: 0% 50%; }
 }
 
-#login_glass_card .t-Button:hover {
+body.t-PageBody--login #login_glass_card .t-Button:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 14px 44px rgba(108,99,255,0.45), 0 4px 12px rgba(108,99,255,0.25), inset 0 1px 1px rgba(255,255,255,0.25) !important;
+  box-shadow: 0 14px 44px rgba(108,99,255,0.45), 0 4px 12px rgba(108,99,255,0.25) !important;
 }
 
-#login_glass_card .t-Button:active {
+body.t-PageBody--login #login_glass_card .t-Button:active {
   transform: translateY(0) scale(0.985) !important;
   filter: brightness(0.95) !important;
 }
 
-
-/* ══════════════════════════════════════════════════════════
-   11. TRUST BADGES / FOOTER / RESEND
-   ══════════════════════════════════════════════════════════ */
+/* 11. EXTRAS */
 .glass-trust {
   display: flex; justify-content: center; gap: 24px;
   margin-top: 20px; position: relative; z-index: 1;
@@ -408,18 +367,10 @@ body.t-PageBody--login::after {
   position: relative; z-index: 1;
 }
 .b5-resend a { color: var(--accent2) !important; text-decoration: none; font-weight: 700; }
-.b5-resend a:hover { color: #fff !important; text-decoration: underline; }
+.b5-resend a:hover { color: #fff !important; }
 
-
-/* ══════════════════════════════════════════════════════════
-   12. NOTIFICATION / ERROR MESSAGES
-   ══════════════════════════════════════════════════════════ */
-.t-Body-alert {
-  position: relative;
-  z-index: 10;
-}
-
-.t-Body-alert .t-Alert {
+/* 12. ERROR MESSAGES */
+body.t-PageBody--login .t-Body-alert .t-Alert {
   background: rgba(255,60,60,0.12) !important;
   backdrop-filter: blur(12px) !important;
   border: 1px solid rgba(255,60,60,0.25) !important;
@@ -427,47 +378,31 @@ body.t-PageBody--login::after {
   margin: 12px auto !important;
   max-width: 480px;
 }
-
-.t-Body-alert .t-Alert .t-Alert-body,
-.t-Body-alert .t-Alert .t-Alert-title {
+body.t-PageBody--login .t-Body-alert .t-Alert-body,
+body.t-PageBody--login .t-Body-alert .t-Alert-title {
   color: #ff9999 !important;
 }
 
-/* Inline notification inside card */
-#login_glass_card .t-Alert,
-#login_glass_card .apex-page-error {
-  background: rgba(255,60,60,0.12) !important;
-  border: 1px solid rgba(255,60,60,0.25) !important;
-  border-radius: 12px !important;
-  color: #ff9999 !important;
-}
-
-
-/* ══════════════════════════════════════════════════════════
-   13. FADE-IN ANIMATIONS
-   ══════════════════════════════════════════════════════════ */
+/* 13. ANIMATIONS */
 .glassFade {
   opacity: 0; transform: translateY(16px);
-  animation: glassFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: glassFadeIn 0.6s cubic-bezier(0.22,1,0.36,1) forwards;
 }
-@keyframes glassFadeIn { to { opacity: 1; transform: translateY(0); } }
-.glassFade:nth-child(1) { animation-delay: 0.08s; }
-.glassFade:nth-child(2) { animation-delay: 0.16s; }
-.glassFade:nth-child(3) { animation-delay: 0.24s; }
-.glassFade:nth-child(4) { animation-delay: 0.32s; }
-.glassFade:nth-child(5) { animation-delay: 0.40s; }
-.glassFade:nth-child(6) { animation-delay: 0.48s; }
+@keyframes glassFadeIn { to { opacity:1; transform:translateY(0); } }
+.glassFade:nth-child(1) { animation-delay: .08s; }
+.glassFade:nth-child(2) { animation-delay: .16s; }
+.glassFade:nth-child(3) { animation-delay: .24s; }
+.glassFade:nth-child(4) { animation-delay: .32s; }
+.glassFade:nth-child(5) { animation-delay: .40s; }
+.glassFade:nth-child(6) { animation-delay: .48s; }
 
-
-/* ══════════════════════════════════════════════════════════
-   14. MOBILE
-   ══════════════════════════════════════════════════════════ */
+/* 14. MOBILE */
 @media (max-width: 540px) {
-  #login_glass_card {
+  body.t-PageBody--login #login_glass_card {
     width: 96vw !important;
     border-radius: 20px !important;
   }
-  #login_glass_card .t-Region-body {
+  body.t-PageBody--login #login_glass_card > .t-Region-bodyWrap > .t-Region-body {
     padding: 32px 24px 28px !important;
   }
   .glass-trust { gap: 16px; flex-wrap: wrap; }
