@@ -1,1 +1,30 @@
-ii
+DECLARE
+  l_user_id app_users.user_id%TYPE;
+BEGIN
+  -- Validate user
+  BEGIN
+    SELECT user_id
+      INTO l_user_id
+      FROM app_users
+     WHERE upper(username) = upper(:P101_USERNAME)
+       AND password_text   = :P101_PASSWORD
+       AND status          = 'ACTIVE';
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+      apex_error.add_error(
+        p_message          => 'Invalid username or password.',
+        p_display_location => apex_error.c_inline_in_notification
+      );
+      RETURN;
+  END;
+
+  -- Direct login: set session state
+  apex_util.set_session_state('APP_CURRENT_USER_ID', l_user_id);
+  apex_util.set_session_state('APP_CURRENT_USER_EMAIL', :P101_USERNAME);
+
+  -- Redirect to home page
+  apex_util.redirect_url(
+    apex_page.get_url(p_page => 1)
+  );
+  apex_application.stop_apex_engine;
+END;
