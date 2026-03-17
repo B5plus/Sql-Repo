@@ -1,30 +1,141 @@
-DECLARE
-  l_user_id app_users.user_id%TYPE;
-BEGIN
-  -- Validate user
-  BEGIN
-    SELECT user_id
-      INTO l_user_id
-      FROM app_users
-     WHERE upper(username) = upper(:P101_USERNAME)
-       AND password_text   = :P101_PASSWORD
-       AND status          = 'ACTIVE';
-  EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-      apex_error.add_error(
-        p_message          => 'Invalid username or password.',
-        p_display_location => apex_error.c_inline_in_notification
-      );
-      RETURN;
-  END;
 
-  -- Direct login: set session state
-  apex_util.set_session_state('APP_CURRENT_USER_ID', l_user_id);
-  apex_util.set_session_state('APP_CURRENT_USER_EMAIL', :P101_USERNAME);
 
-  -- Redirect to home page
-  apex_util.redirect_url(
-    apex_page.get_url(p_page => 1)
-  );
-  apex_application.stop_apex_engine;
-END;
+Static ID = login_glass_card
+
+
+
+Page CSS Classes = login-glass-page
+
+
+
+/* Full-page glass login background */
+body.login-glass-page,
+.login-glass-page .t-Body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.22), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(255,255,255,.12), transparent 28%),
+    linear-gradient(135deg, #1f3b73 0%, #6b2f6b 45%, #0f2027 100%);
+  background-attachment: fixed;
+}
+
+/* Optional: hide standard white page feel */
+.login-glass-page .t-Body-content,
+.login-glass-page .t-Body-main {
+  background: transparent !important;
+}
+
+/* Center card area */
+.login-glass-page .t-Body-contentInner {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+/* Main glass card */
+#login_glass_card.t-Region,
+#login_glass_card {
+  width: 100%;
+  max-width: 430px;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255,255,255,0.18) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+/* Region header/body */
+#login_glass_card .t-Region-header,
+#login_glass_card .t-Region-body {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#login_glass_card .t-Region-title,
+#login_glass_card .b5-title,
+#login_glass_card .b5-sub,
+#login_glass_card .t-Form-label {
+  color: #ffffff !important;
+}
+
+/* Logo / heading spacing */
+#login_glass_card .b5-login-head {
+  text-align: center;
+  padding: 8px 0 14px;
+}
+
+#login_glass_card .b5-logo img {
+  max-width: 88px;
+  margin-bottom: 10px;
+}
+
+/* Inputs */
+#login_glass_card input[type="text"],
+#login_glass_card input[type="password"],
+#login_glass_card input[type="email"] {
+  background: rgba(255,255,255,0.16) !important;
+  border: 1px solid rgba(255,255,255,0.22) !important;
+  color: #fff !important;
+  border-radius: 14px !important;
+  min-height: 46px;
+  box-shadow: none !important;
+}
+
+#login_glass_card input::placeholder {
+  color: rgba(255,255,255,.72) !important;
+}
+
+#login_glass_card input:focus {
+  background: rgba(255,255,255,0.22) !important;
+  border-color: rgba(255,255,255,0.40) !important;
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.10) !important;
+  color: #fff !important;
+}
+
+/* Button */
+#login_glass_card .t-Button--hot,
+#login_glass_card .t-Button {
+  border-radius: 14px !important;
+  min-height: 46px;
+  font-weight: 700;
+}
+
+#login_glass_card .t-Button--hot {
+  background: linear-gradient(135deg, rgba(255,255,255,.32), rgba(255,255,255,.18)) !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18) !important;
+}
+
+#login_glass_card .t-Button--hot:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(255,255,255,.38), rgba(255,255,255,.22)) !important;
+}
+
+/* Notification / validation */
+#login_glass_card .t-Alert,
+#login_glass_card .t-Form-error {
+  border-radius: 14px !important;
+}
+
+/* Small helper links */
+#login_glass_card a,
+#login_glass_card .b5-resend a {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  #login_glass_card.t-Region,
+  #login_glass_card {
+    max-width: 100%;
+    border-radius: 18px !important;
+  }
+}
