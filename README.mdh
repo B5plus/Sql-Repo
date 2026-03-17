@@ -1,264 +1,432 @@
-/* =========================
-   LOGIN PAGE GLASSMORPHISM
-   ========================= */
+/* ============================================================
+   B5 PLUS – GLASSMORPHISM LOGIN  ·  APEX Page 101  (FIXED)
+   Paste this into: Page 101 → CSS → Inline
+   ============================================================ */
 
-/* page background */
+:root {
+  --glass-bg: rgba(255,255,255,0.12);
+  --glass-border: rgba(255,255,255,0.22);
+  --glass-blur: 28px;
+  --ink: #ffffff;
+  --ink2: rgba(255,255,255,0.82);
+  --ink3: rgba(255,255,255,0.58);
+  --accent: #6C63FF;
+  --accent2: #00D4AA;
+  --radius: 24px;
+  --radius3: 14px;
+  --shadow-card: 0 32px 80px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(255,255,255,0.10);
+  --shadow-input: inset 0 2px 6px rgba(0,0,0,0.12);
+  --font: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════
+   FIX #1: FORCE DARK BACKGROUND ON EVERYTHING
+   The APEX Login template uses many wrapper classes.
+   We target ALL of them with !important.
+   ═══════════════════════════════════════════════════ */
 html,
-body {
-  height: 100%;
-}
-
-body.t-PageBody {
-  background: url("#WORKSPACE_FILES#login-bg.jpg.jpeg") center center / cover no-repeat fixed !important;
-  position: relative;
-}
-
-/* soft overlay */
-body.t-PageBody::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(15, 23, 42, 0.35),
-    rgba(59, 130, 246, 0.18),
-    rgba(255, 255, 255, 0.18)
-  );
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* keep page content above overlay */
+body,
+body.t-PageBody,
+body.t-PageBody--login,
 .t-Body,
 .t-Body-wrap,
 .t-Body-main,
 .t-Body-content,
 .t-Body-mainContent,
-.t-Body-contentInner {
+.t-Body-contentInner,
+.t-Login-container,
+.t-Login-containerBody,
+.t-PageBody,
+.t-PageBody--login {
+  background:
+    radial-gradient(1400px 900px at 15% 15%, rgba(108,99,255,0.35), transparent 55%),
+    radial-gradient(1000px 800px at 85% 25%, rgba(0,212,170,0.25), transparent 55%),
+    radial-gradient(800px 600px at 50% 90%, rgba(255,107,107,0.18), transparent 50%),
+    linear-gradient(145deg, #0a0a1a 0%, #0d1025 30%, #0f0a20 60%, #0a0a1a 100%) !important;
+  background-color: #0a0a1a !important;
+  background-attachment: fixed !important;
+  min-height: 100vh !important;
+  font-family: var(--font) !important;
+}
+
+/* FIX #2: Also paint background-color on html for any gap */
+html {
+  background-color: #0a0a1a !important;
+}
+
+/* Dot grid overlay */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.035) 1px, transparent 0);
+  background-size: 48px 48px;
+  pointer-events: none; z-index: 0;
+}
+
+/* Floating orb */
+body::after {
+  content: "";
+  position: fixed;
+  width: 600px; height: 600px;
+  top: -120px; right: -180px;
+  background: radial-gradient(circle, rgba(0,212,170,0.12), transparent 65%);
+  border-radius: 50%;
+  pointer-events: none; z-index: 0;
+  animation: orbFloat 18s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-60px, 40px) scale(1.08); }
+  100% { transform: translate(20px, -30px) scale(0.95); }
+}
+
+/* ═══════════════════════════════════════════════════
+   FIX #3: HIDE ALL APEX CHROME
+   ═══════════════════════════════════════════════════ */
+.t-Header,
+.t-Body-side,
+.t-Body-nav,
+.t-Body-actions,
+.t-Login-header,
+.t-Login-footer {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   FIX #4: CENTER CONTENT - target Login template
+   ═══════════════════════════════════════════════════ */
+.t-Body-mainContent,
+.t-Body-contentInner,
+.t-Login-container,
+.t-Login-containerBody {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.t-Body-content,
+.t-Body-contentInner { padding: 0 !important; }
+
+/* ─── GLASS CARD ─── */
+#loginCard,
+.t-Login-region {
+  position: relative; z-index: 2;
+  width: min(480px, 92vw) !important;
+  max-width: 480px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.6) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6) !important;
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow: hidden;
+}
+
+/* Inner glow sweep */
+#loginCard::before,
+.t-Login-region::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(400px 180px at 20% -10%, rgba(108,99,255,0.18), transparent 60%),
+    radial-gradient(300px 160px at 85% 0%, rgba(0,212,170,0.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), transparent 40%);
+  pointer-events: none;
+  border-radius: var(--radius); z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   FIX #5: STRIP ALL APEX REGION INNER STYLING
+   Covers both #loginCard and .t-Region wrappers
+   ═══════════════════════════════════════════════════ */
+#loginCard .t-Region,
+#loginCard .t-Region-header,
+#loginCard .t-Region-bodyWrap,
+#loginCard .t-Region-body,
+.t-Login-region .t-Region,
+.t-Login-region .t-Region-header,
+.t-Login-region .t-Region-bodyWrap,
+.t-Login-region .t-Region-body,
+.t-Login-region .t-Login-logo,
+.t-Login-region .t-Login-title,
+.t-Login-region .t-Login-body {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+#loginCard .t-Region-header,
+.t-Login-region .t-Region-header {
+  display: none !important;
+}
+
+#loginCard .t-Region,
+.t-Login-region .t-Region {
+  margin: 0 !important; padding: 0 !important;
+}
+
+#loginCard .t-Region-body,
+.t-Login-region .t-Region-body,
+.t-Login-region .t-Login-body {
+  padding: 40px 36px 36px !important;
   position: relative;
   z-index: 1;
 }
 
-/* center login card */
-.t-Body,
-.t-Body-wrap,
-.t-Body-main,
-.t-Body-content,
-.t-Body-mainContent {
-  min-height: 100vh !important;
-}
-
-.t-Body-mainContent {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.t-Body-contentInner {
-  width: 100%;
-  padding: 24px !important;
-}
-
-/* =========================
-   MAIN LOGIN CARD
-   Static ID must be: loginCard
-   ========================= */
-#loginCard {
-  width: min(420px, 92vw);
-  margin: 0 auto !important;
-  background: rgba(255, 255, 255, 0.14) !important;
-  border: 1px solid rgba(255, 255, 255, 0.22) !important;
-  border-radius: 24px !important;
-  box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  overflow: hidden;
-}
-
-/* region cleanup */
-#loginCard .t-Region-header {
-  display: none !important;
-}
-
-#loginCard .t-Region-body {
-  background: transparent !important;
-  border: 0 !important;
-  padding: 28px !important;
-}
-
-/* =========================
-   LOGIN HEADER
-   ========================= */
-#loginCard .b5-login-head {
+/* ─── LOGO / HEADER ─── */
+.b5-login-head {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
+  position: relative; z-index: 1;
 }
 
-#loginCard .b5-logo {
+.b5-logo {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-#loginCard .b5-logo img {
-  width: 72px;
-  height: 72px;
+.b5-logo img {
+  width: 72px; height: 72px;
+  border-radius: 20px;
   object-fit: contain;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.22);
-  padding: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.15);
+  padding: 12px;
 }
 
-#loginCard .b5-title,
-#loginCard .b5-sub {
-  color: #ffffff !important;
-}
-
-#loginCard .b5-title {
+.b5-title {
   font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: 800;
+  color: var(--ink) !important;
+  letter-spacing: -0.02em;
 }
 
-#loginCard .b5-sub {
-  font-size: 13px;
-  opacity: 0.9;
+.b5-sub {
+  font-size: 13.5px;
+  color: var(--ink3) !important;
   margin-top: 6px;
+  line-height: 1.5;
 }
 
-/* =========================
-   FORM FIELDS
-   ========================= */
-#loginCard .t-Form-fieldContainer {
-  margin-bottom: 16px !important;
+/* ═══════════════════════════════════════════════════
+   FIX #6: FORM LABELS - force white on dark
+   ═══════════════════════════════════════════════════ */
+#loginCard .t-Form-fieldContainer,
+.t-Login-region .t-Form-fieldContainer {
+  margin-bottom: 18px !important;
+  position: relative; z-index: 1;
 }
 
-#loginCard .t-Form-label {
+#loginCard .t-Form-label,
+.t-Login-region .t-Form-label,
+#loginCard label,
+.t-Login-region label {
   display: block !important;
-  position: static !important;
-  transform: none !important;
   margin-bottom: 8px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: #ffffff !important;
-  opacity: 1 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: var(--ink2) !important;
+  position: relative !important;
+  top: 0 !important;
 }
 
-#loginCard .t-Form-inputContainer {
-  position: relative;
-  margin-top: 0 !important;
-}
-
+/* ═══════════════════════════════════════════════════
+   FIX #7: ALL INPUTS - dark glass style
+   ═══════════════════════════════════════════════════ */
 #loginCard input[type="text"],
 #loginCard input[type="password"],
-#loginCard input[type="email"] {
-  width: 100%;
-  height: 48px;
-  padding: 0 14px !important;
-  border-radius: 14px !important;
-  border: 1px solid rgba(255, 255, 255, 0.24) !important;
-  background: rgba(255, 255, 255, 0.16) !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-#loginCard input::placeholder {
-  color: rgba(255, 255, 255, 0.72) !important;
-}
-
-#loginCard input:focus {
-  border-color: rgba(255, 255, 255, 0.42) !important;
-  background: rgba(255, 255, 255, 0.22) !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.10) !important;
+#loginCard input[type="email"],
+#loginCard .text_field,
+#loginCard .password,
+.t-Login-region input[type="text"],
+.t-Login-region input[type="password"],
+.t-Login-region input[type="email"],
+.t-Login-region .text_field,
+.t-Login-region .password,
+#P101_USERNAME,
+#P101_PASSWORD {
+  width: 100% !important;
+  padding: 15px 18px !important;
+  font-size: 15px !important;
+  font-family: var(--font) !important;
+  color: var(--ink) !important;
+  background: rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  border-radius: var(--radius3) !important;
+  box-shadow: var(--shadow-input) !important;
   outline: none !important;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s !important;
+  -webkit-appearance: none !important;
 }
 
-/* =========================
-   PASSWORD EYE BUTTON
-   ========================= */
-#loginCard #P101_PASSWORD {
-  padding-right: 44px !important;
+#loginCard input:focus,
+.t-Login-region input:focus,
+#P101_USERNAME:focus,
+#P101_PASSWORD:focus {
+  background: rgba(255,255,255,0.10) !important;
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-input), 0 0 0 3px rgba(108,99,255,0.20), 0 0 24px rgba(108,99,255,0.10) !important;
 }
 
-#loginCard #togglePwd101 {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  background: transparent;
-  padding: 4px;
-  cursor: pointer;
-  opacity: 0.8;
-  color: #ffffff;
+#loginCard input::placeholder,
+.t-Login-region input::placeholder {
+  color: rgba(255,255,255,0.30) !important;
 }
 
-#loginCard #togglePwd101:hover {
-  opacity: 1;
+/* Icon color */
+#loginCard .t-Form-itemWrapper .t-Icon,
+#loginCard .apex-item-icon,
+.t-Login-region .t-Form-itemWrapper .t-Icon,
+.t-Login-region .apex-item-icon {
+  color: var(--ink3) !important;
 }
 
-/* =========================
-   BUTTON
-   ========================= */
-#loginCard .t-Button {
-  width: 100%;
-  min-height: 48px;
-  border-radius: 14px !important;
-  font-weight: 700;
+/* ─── PASSWORD TOGGLE ─── */
+#loginCard #P101_PASSWORD_CONTAINER .t-Form-inputContainer,
+.t-Login-region #P101_PASSWORD_CONTAINER .t-Form-inputContainer {
+  position: relative;
 }
 
-#loginCard .t-Button--hot {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.34),
-    rgba(255, 255, 255, 0.18)
-  ) !important;
-  border: 1px solid rgba(255, 255, 255, 0.26) !important;
+#P101_PASSWORD { padding-right: 48px !important; }
+
+#togglePwd101 {
+  position: absolute !important;
+  right: 14px !important; top: 50% !important;
+  transform: translateY(-50%) !important;
+  border: none !important; background: transparent !important;
+  cursor: pointer !important; padding: 6px !important;
+  color: var(--ink3) !important; transition: color 0.2s !important;
+}
+#togglePwd101:hover { color: var(--ink) !important; }
+
+/* ═══════════════════════════════════════════════════
+   FIX #8: BUTTON
+   ═══════════════════════════════════════════════════ */
+#loginCard .t-Button,
+#loginCard button[type="submit"],
+.t-Login-region .t-Button,
+.t-Login-region button[type="submit"] {
+  width: 100% !important;
+  padding: 16px 20px !important;
+  font-size: 14.5px !important;
+  font-weight: 800 !important;
+  font-family: var(--font) !important;
+  letter-spacing: 0.04em !important;
   color: #ffffff !important;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18) !important;
+  border: none !important;
+  border-radius: var(--radius3) !important;
+  cursor: pointer !important;
+  background: linear-gradient(135deg, var(--accent) 0%, #8B5CF6 50%, var(--accent) 100%) !important;
+  background-size: 200% 200% !important;
+  box-shadow: 0 8px 32px rgba(108,99,255,0.35), 0 2px 8px rgba(108,99,255,0.20), inset 0 1px 1px rgba(255,255,255,0.20) !important;
+  animation: btnShimmer 4s ease infinite !important;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s !important;
 }
 
-#loginCard .t-Button--hot:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.40),
-    rgba(255, 255, 255, 0.24)
-  ) !important;
-  transform: translateY(-1px);
+@keyframes btnShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* =========================
-   ALERTS / LINKS
-   ========================= */
-#loginCard .t-Alert {
-  border-radius: 14px !important;
+#loginCard .t-Button:hover,
+.t-Login-region .t-Button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 44px rgba(108,99,255,0.45), 0 4px 12px rgba(108,99,255,0.25), inset 0 1px 1px rgba(255,255,255,0.25) !important;
 }
 
-#loginCard a {
-  color: #ffffff !important;
+#loginCard .t-Button:active,
+.t-Login-region .t-Button:active {
+  transform: translateY(0) scale(0.985) !important;
+  filter: brightness(0.95) !important;
 }
 
-/* =========================
-   MOBILE
-   ========================= */
-@media (max-width: 640px) {
-  #loginCard {
-    width: min(94vw, 420px);
-    border-radius: 18px !important;
+/* ─── TRUST BADGES ─── */
+.glass-trust {
+  display: flex; justify-content: center; gap: 24px;
+  margin-top: 20px; position: relative; z-index: 1;
+}
+.glass-trust__item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11.5px; color: var(--ink3) !important; font-weight: 600;
+}
+.glass-trust__item i { font-size: 13px; color: var(--accent2) !important; }
+
+/* ─── FOOTER ─── */
+.glass-footer {
+  text-align: center; font-size: 12px;
+  color: rgba(255,255,255,0.30) !important;
+  margin-top: 24px; position: relative; z-index: 1;
+}
+
+/* ─── RESEND ─── */
+.b5-resend {
+  text-align: center; margin-top: 20px;
+  font-size: 13px; color: var(--ink3) !important;
+  position: relative; z-index: 1;
+}
+.b5-resend a { color: var(--accent2) !important; text-decoration: none; font-weight: 700; }
+.b5-resend a:hover { color: #fff !important; text-decoration: underline; }
+
+/* ─── FADE-IN ─── */
+.glassFade {
+  opacity: 0; transform: translateY(16px);
+  animation: glassFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes glassFadeIn { to { opacity: 1; transform: translateY(0); } }
+.glassFade:nth-child(1) { animation-delay: 0.08s; }
+.glassFade:nth-child(2) { animation-delay: 0.16s; }
+.glassFade:nth-child(3) { animation-delay: 0.24s; }
+.glassFade:nth-child(4) { animation-delay: 0.32s; }
+.glassFade:nth-child(5) { animation-delay: 0.40s; }
+.glassFade:nth-child(6) { animation-delay: 0.48s; }
+
+/* ═══════════════════════════════════════════════════
+   FIX #9: KILL ANY REMAINING WHITE BACKGROUNDS
+   This is the nuclear option — catches anything
+   the theme might inject
+   ═══════════════════════════════════════════════════ */
+.t-Login-container,
+.t-Login-containerBody,
+.t-Login-body,
+.t-Login-region,
+.t-Login-region .t-Region,
+.t-Login-region .t-Region-bodyWrap,
+.container,
+.row,
+.col {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Any stray white text-on-white fix */
+#loginCard *,
+.t-Login-region * {
+  border-color: rgba(255,255,255,0.12);
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 540px) {
+  #loginCard, .t-Login-region {
+    width: 96vw !important;
+    border-radius: 20px !important;
   }
-
-  #loginCard .t-Region-body {
-    padding: 20px !important;
+  #loginCard .t-Region-body,
+  .t-Login-region .t-Region-body,
+  .t-Login-region .t-Login-body {
+    padding: 32px 24px 28px !important;
   }
-
-  #loginCard .b5-logo img {
-    width: 64px;
-    height: 64px;
-  }
+  .glass-trust { gap: 16px; flex-wrap: wrap; }
 }
